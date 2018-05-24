@@ -4,7 +4,7 @@ import TrackVisibility from './../TrackVisibility';
 
 
 const hasProp = (Component, prop) => {
- return {}.hasOwnProperty.call(Component, prop);
+  return {}.hasOwnProperty.call(Component, prop);
 };
 
 const Dumb = props => <div>Plop</div>;
@@ -20,18 +20,35 @@ const renderComponent = Comp => {
 describe('<TrackVisibility />', () => {
 
   describe("When mounting the component", () => {
-    it("should call the child component with the visibility", () => {
+    it("should call the child component with the visibility set to 'false'", () => {
       const renderProp = jest.fn();
       const wrapper = renderComponent(
         <TrackVisibility>
           {renderProp}
         </TrackVisibility>
       );
+
       // Called one, on initial render then second call prevented by shouldComponentUpdate
-      expect(renderProp).toHaveBeenCalledTimes(1)
-      // first call sets isVisible to false as this is the default state
-      // Second render yields isVisible false as top, right, bottom, left are all 0
-      expect(renderProp).toHaveBeenCalledWith({ isVisible: false })
+      expect(renderProp).toHaveBeenCalledTimes(1);
+
+      // False is the default initial state
+      expect(renderProp).toHaveBeenCalledWith({ isVisible: false });
+    });
+    
+    it("should call the child component with the visibility set to 'true'", () => {
+      const renderProp = jest.fn();
+      const wrapper = renderComponent(
+        <TrackVisibility initialState={true}>
+          {renderProp}
+        </TrackVisibility>
+      );
+
+      // Called two, since the child is not visible, there's a second call
+      // with isVisible set to 'false'
+      expect(renderProp).toHaveBeenCalledTimes(2);
+
+      // This time the prop initialState is set to 'true'
+      expect(renderProp).toHaveBeenNthCalledWith(1, { isVisible: true });
     });
   });
 

@@ -56,7 +56,12 @@ export default class TrackVisibility extends Component {
      * Exposed for testing but allows node other than internal wrapping <div /> to be tracked
      * for visibility
      */
-    nodeRef: PropTypes.object
+    nodeRef: PropTypes.object,
+
+    /**
+     * The initial state of the component
+     */
+    initialState: PropTypes.bool
   };
 
   static defaultProps = {
@@ -67,13 +72,14 @@ export default class TrackVisibility extends Component {
     className: null,
     offset: 0,
     partialVisibility: false,
-    nodeRef: null
+    nodeRef: null,
+    initialState: false
   };
   
   constructor(props) {
     super(props);
     this.state = {
-        isVisible: false
+      isVisible: this.props.initialState
     };
     this.throttleCb = throttle(
       this.isComponentVisible,
