@@ -20,7 +20,8 @@
     "test:coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "prebuild": "npm run test",
     "build": "NODE_ENV=production ./scripts/build.sh",
-    "build-dev": "NODE_ENV=developement ./scripts/build.sh"
+    "build-dev": "NODE_ENV=developement ./scripts/build.sh",
+    "install": "NODE_ENV=production ./scripts/build.sh"
   },
   "repository": {
     "type": "git",
